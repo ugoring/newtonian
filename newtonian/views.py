@@ -72,11 +72,18 @@ def _get_network(uuid, session):
         raise httpexc.HTTPNotFound()
     return network
 
+def _get_port(uuid, session):
+    query = session.query(models.Port)
+    port = query.filter_by(uuid=uuid).first()
+    if not port:
+        raise httpexc.HTTPNotFound()
+    return port
+
+
 
 @networks.get()
 def get_networks(request):
     session = _get_session(request)
-
     query = session.query(models.Network)
     return _collection(query.all(), models.Network)
 
@@ -104,6 +111,13 @@ def get_network(request):
     session = _get_session(request)
     network = _get_network(uuid, session)
     return _object(network)
+
+@port.get()
+def get_port(request):
+    uuid = request.matchdict['uuid']
+    session = _get_session(request)
+    port = _get_port(uuid, session)
+    return _object(port)
 
 
 @network.delete()

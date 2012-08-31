@@ -137,7 +137,8 @@ class IsHazTags(object):
 
 
 class MetaIp(Base):
-    subnet_uuid = ForeignKey("subnets.uuid")
+    subnet_uuid = ForeignKey(""
+                             ".uuid")
     ip = sa.Column(ct.INET)
 
 
